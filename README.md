@@ -62,3 +62,6 @@ These observations apply to all pages on the website:
 2.  When clicking "Next" with empty input fields, such as the name field, the input fields acquire the `.ng-invalid` class indicating an error. However, the error message below remains hidden. It is recommended to display the error message when clicking "Next" without input, aligning with standard user expectations.
 
 * * *
+
+### Author 
+Tymoteusz Krysta (krystatymoteusz@gmail.com)

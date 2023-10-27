@@ -1,13 +1,10 @@
 {
   "name": "recruitment-task",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "cypress open"
+    "test:open": "cypress open",
+    "test:run": "cypress run"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "cypress": "^13.3.3"
   }

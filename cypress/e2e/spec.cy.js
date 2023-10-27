@@ -169,8 +169,6 @@ describe('Template Spec', () => {
   });
 
   it('Walidacja długości wprowadzonych danych', () => {
-    const incrediblyLongString = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget quam nec dui porttitor cursus. Sed venenatis dolor vel fringilla.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget quam nec dui porttitor cursus. Sed venenatis dolor vel fringilla.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget quam nec dui porttitor cursus. Sed venenatis dolor vel fringilla.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget quam nec dui porttitor cursus. Sed venenatis dolor vel fringilla.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget quam nec dui porttitor cursus. Sed venenatis dolor vel fringilla.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget quam nec dui porttitor cursus. Sed venenatis dolor vel fringilla.';
-
     //cy.visit('/form');
     //
     //cy.get('app-form').as('form');
@@ -180,13 +178,28 @@ describe('Template Spec', () => {
     //cy.get('@btn-submit').should('be.enabled');
     //cy.get('@input-name').type(incrediblyLongString);
     //cy.get('@btn-submit').should('be.enabled');
-  });
+    const stringAbove20Chars = '123456789012345678901';
+    const stringBelow20Chars = '123456789012345678';
+    const stringAbove30Chars = '1234567890123456789012345678901';
 
-  it('Walidacja wprowadzenia niepoprawnych znaków', () => {
-    // Add test logic for character validation
-  });
+    cy.visit('/stepper');
 
-  it('Trimowanie treści pól tekstowych', () => {
-    // Add test logic for content trimming
+    cy.get('.mat-horizontal-content-container').find('[role="tabpanel"]').as('stepper-content-containers').should('have.length', 3);
+    cy.get('@stepper-content-containers').eq(0).as('step-name').should('be.visible');
+    cy.get('@stepper-content-containers').eq(1).as('step-address').should('not.be.visible');
+
+    cy.get('@step-name').find('input#mat-input-0').type(stringAbove20Chars);
+    cy.get('@step-name').find('mat-form-field').next().as('step-name-error-msg').should('be.visible').contains(/The maximum length for this field is 20 characters./i);
+    cy.get('@step-name').find('input#mat-input-0').clear().type(stringBelow20Chars);
+    cy.get('@step-name').find('mat-form-field').should('not.contain.text', 'The maximum length for this field is 20 characters.');
+    
+
+    cy.get('@step-name').find('[matsteppernext]').click();
+    
+    
+    cy.get('@step-address').find('input#mat-input-1').type(stringAbove30Chars);
+    cy.get('@step-address').find('mat-form-field').next().as('step-address-error-msg').should('be.visible').contains(/The maximum length for this field is 30 characters./i);
+    cy.get('@step-address').find('input#mat-input-1').type(stringBelow20Chars);
+    cy.get('@step-address').find('mat-form-field').should('not.contain.text', 'The maximum length for this field is 30 characters.');
   });
 });
